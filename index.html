@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>트릭컬 보드</title>
-  <style>
-    .page { display: none; }
-    .active { display: block; }
-    button { margin: 5px; padding: 8px 12px; }
-    #pageIndicator {
-      text-align: center;
-      font-size: 24px;
-      margin: 15px 0;
-      font-weight: bold;
-    }
-  </style>
+<style>
+  .page { display: none; }
+  .active { display: table; } /* ← 여기 수정 */
+  button { margin: 5px; padding: 8px 12px; }
+  #pageIndicator {
+    text-align: center;
+    font-size: 24px;
+    margin: 15px 0;
+    font-weight: bold;
+  }
+</style>
 </head>
 <body>
   <!-- 현재 페이지 표시 -->
