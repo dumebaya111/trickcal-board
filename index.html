@@ -27,21 +27,31 @@
   </div>
   
   <!-- 페이지 1 -->
-  <table id="page1" class="page active" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 50%;">
-  <script>
-  function countValues() {
-    const counts = {}; // 페이지별 집계
+  <div id="page1-stats" style="margin-top:10px; font-weight:bold;"></div>
 
+  <script>
+  function updateStats() {
     document.querySelectorAll('.page').forEach((table, pageIdx) => {
-      if (pageIdx < 1) return;
-      
       let Ocount = 0, Xcount = 0;
       table.querySelectorAll('tbody tr td select').forEach(sel => {
         if (sel.value === 'O') Ocount++;
         else if (sel.value === 'X') Xcount++;
       });
-      counts[pageIdx + 1] = {O: Ocount, X: Xcount, '-': dashCount};
+
+      const score = Ocount*2 - Xcount*1 + dashCount*0.5; // 원하는 공식
+      const div = document.getElementById(`page${pageIdx+1}-stats`);
+      if(div){
+        div.textContent = `O: ${Ocount}, X: ${Xcount}, -: ${dashCount}, 점수: ${score}`;
+      }
     });
+  }
+
+  document.querySelectorAll('table td select').forEach(sel => {
+    sel.addEventListener('change', updateStats);
+  });
+
+  updateStats();
+  </script>
 
     // 결과 출력
     for (const page in counts) {
