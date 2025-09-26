@@ -301,14 +301,28 @@
         filters.forEach((filter, idx) => {
           if (!show) return;
           const val = filter.value;
+          if (!val) return; // 전체 선택이면 필터 무시
           const cell = tr.cells[idx];
           if (!cell) return;
-          const cellVal = cell.querySelector('select') ? cell.querySelector('select').value : cell.textContent.trim();
-          if (val && val !== cellVal && !cellVal.includes(val)) show = false;
+          const cellSelect = cell.querySelector('select');
+          const cellVal = cellSelect ? cellSelect.value : cell.textContent.trim();
+          if (cell.tagName === 'TD' && filter.tagName === 'INPUT') {
+            if (!cellVal.includes(val)) show = false; // 이름 필터는 포함 검색
+          } else {
+            if (cellVal !== val) show = false; // O/X 필터는 정확히 일치
+          }
         });
         tr.style.display = show ? '' : 'none';
       });
     }
+
+    // 필터 이벤트 연결
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.filterRow input, .filterRow select').forEach(filter => {
+        filter.addEventListener('input', e => applyFilters(e.target.closest('table')));
+        filter.addEventListener('change', e => applyFilters(e.target.closest('table')));
+      });
+    });
 
     // 필터 이벤트 연결
     document.addEventListener('DOMContentLoaded', () => {
