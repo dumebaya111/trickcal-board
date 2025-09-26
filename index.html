@@ -8,12 +8,7 @@
     .page { display: none; }
     .active { display: table; }
     button { margin: 5px; padding: 8px 12px; }
-    #pageIndicator {
-      text-align: center;
-      font-size: 24px;
-      margin: 15px 0;
-      font-weight: bold;
-    }
+    #pageIndicator { text-align: center; font-size: 24px; margin: 15px 0; font-weight: bold; }
     table th, table td { text-align: center; vertical-align: middle; }
     select { font-size: 20px; height: 32px; width: 100%; box-sizing: border-box; }
     img { width: 60px; height: auto; display: block; margin: 0 auto; }
@@ -52,17 +47,15 @@
       </tr>
       <tr>
         <td>우로스</td>
-        <td><img src="사도/공명/우로스.png" alt="우로스" style="width:80%; height:auto;"></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-      </tr>
-
+        <td><img src="사도/공명/우로스.png" alt="우로스"></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
       </tr>
     </tbody>
   </table>
@@ -89,17 +82,15 @@
       </tr>
       <tr>
         <td>우로스</td>
-        <td><img src="사도/공명/우로스.png" alt="우로스" style="width:80%; height:auto;"></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-        <td><select style="font-size:50px; height:60px;"><option>-</option><option>O</option><option>X</option></select></td>
-      </tr>
-
+        <td><img src="사도/공명/우로스.png" alt="우로스"></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
       </tr>
     </tbody>
   </table>
@@ -107,16 +98,16 @@
   <script>
     let db;
 
-    function showPage(num) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById('page' + num).classList.add('active');
-      document.getElementById('pageIndicator').textContent = "현재 페이지: " + num + "관";
-    }
-
     async function initDB() {
       const SQL = await initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}` });
       db = new SQL.Database();
       db.run("CREATE TABLE IF NOT EXISTS board (page INT, row INT, col INT, value TEXT)");
+    }
+
+    function showPage(num) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page' + num).classList.add('active');
+      document.getElementById('pageIndicator').textContent = "현재 페이지: " + num + "관";
     }
 
     function saveSQLite() {
@@ -140,30 +131,8 @@
     }
 
     function loadSQLite() {
-  const fileInput = document.getElementById('loadFile');
-  if (!fileInput.files.length) { alert("파일 선택!"); return; }
-  const reader = new FileReader();
-  reader.onload = function() {
-    const Uints = new Uint8Array(reader.result);
-    db = new SQL.Database(Uints);
-    document.querySelectorAll('table').forEach((table, pageIdx) => {
-      table.querySelectorAll('tbody tr').forEach((tr, rowIdx) => {
-        tr.querySelectorAll('td select').forEach((sel, colIdx) => {
-          let stmt = db.prepare("SELECT value FROM board WHERE page=? AND row=? AND col=?");
-          stmt.bind([pageIdx+1, rowIdx, colIdx]);
-          if(stmt.step()) {
-            sel.value = stmt.get()[0];
-          }
-          stmt.free();
-        });
-      });
-    });
-    alert("SQLite 불러오기 완료!");
-  };
-  reader.readAsArrayBuffer(fileInput.files[0]);
-}
-
-    initDB();
-  </script>
-</body>
-</html>
+      const fileInput = document.getElementById('loadFile');
+      if (!fileInput.files.length) { alert("파일 선택!"); return; }
+      const reader = new FileReader();
+      reader.onload = function() {
+        const Uints = new Uint8Array(reader.result);
