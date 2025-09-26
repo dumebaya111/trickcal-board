@@ -21,6 +21,7 @@
     <button onclick="showPage(1)">메인시트</button>
     <button onclick="showPage(2)">1관</button>
     <button onclick="showPage(3)">2관</button>
+    <button onclick="showPage(4)">3관</button>
     <button id="btnSave" onclick="saveSQLite()" disabled>저장</button>
     <input type="file" id="loadFile" accept=".sqlite" disabled>
     <button id="btnLoad" onclick="loadSQLite()" disabled>불러오기</button>
@@ -97,6 +98,18 @@
         <td><select><option>-</option><option>O</option><option>X</option></select></td>
       </tr>
       <tr>
+        <td>비비</td>
+        <td><img src="사도/순/비비.png" alt="비비"></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+      </tr>
+      <tr>
         <td>우로스</td>
         <td><img src="사도/공명/우로스.png" alt="우로스"></td>
         <td><select><option>-</option><option>O</option><option>X</option></select></td>
@@ -111,6 +124,54 @@
     </tbody>
   </table>
 
+  <!-- 페이지 4 -->
+  <table id="page4" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 50%;">
+    <thead>
+      <tr>
+        <th>이름</th><th>사진</th><th>공격력</th><th>치명타</th><th>치명피해</th><th>치피저</th><th>HP</th><th>치저</th><th>마방</th><th>물방</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>란</td>
+        <td><img src="사도/순/란.png" alt="란"></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+      </tr>
+      <tr>
+        <td>비비</td>
+        <td><img src="사도/순/비비.png" alt="비비"></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+      </tr>
+      <tr>
+        <td>우로스</td>
+        <td><img src="사도/공명/우로스.png" alt="우로스"></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+      </tr>
+    </tbody>
+  </table>
+
+    
   <script>
     let db;
     let SQL; // 전역 SQL 객체
