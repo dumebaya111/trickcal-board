@@ -1,175 +1,163 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>트릭컬 보드</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
-<style>
-  body { text-align: center; font-family: sans-serif; }
-  #pageIndicator { font-size: 24px; margin: 15px 0; font-weight: bold; }
-  button { margin: 5px; padding: 8px 12px; }
-
-  table { margin: 0 auto; border-collapse: collapse; width: 80%; }
-  th, td { border: 1px solid #000; text-align: center; vertical-align: middle; padding: 5px; }
-  select { font-size: 50px; height: 60px; width: 100%; box-sizing: border-box; }
-  img { width: 80px; height: auto; display: block; margin: 0 auto; }
-
-  .page { display: none; }
-  .active { display: block; }
-</style>
+  <meta charset="UTF-8">
+  <title>트릭컬 보드</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+  <style>
+    .page { display: none; }
+    .active { display: table; }
+    button { margin: 5px; padding: 8px 12px; }
+    #pageIndicator { text-align: center; font-size: 24px; margin: 15px 0; font-weight: bold; }
+    table th, table td { text-align: center; vertical-align: middle; }
+    select { font-size: 50px; height: 60px; width: 100%; box-sizing: border-box; }
+    img { width: 80px; height: auto; display: block; margin: 0 auto; }
+  </style>
 </head>
 <body>
+  <div id="pageIndicator">현재 페이지: 1관</div>
 
-<div id="pageIndicator">현재 페이지: 1관</div>
+  <div style="text-align:center;">
+    <button onclick="showPage(1)">1관</button>
+    <button onclick="showPage(2)">2관</button>
+    <button onclick="saveSQLite()">저장</button>
+    <input type="file" id="loadFile" accept=".sqlite">
+    <button onclick="loadSQLite()">불러오기</button>
+  </div>
 
-<div>
-  <button onclick="showPage(1)">1관</button>
-  <button onclick="showPage(2)">2관</button>
-  <button onclick="saveSQLite()">저장</button>
-  <input type="file" id="loadFile" accept=".sqlite">
-  <button onclick="loadSQLite()">불러오기</button>
-</div>
+  <!-- 페이지 1 -->
+  <table id="page1" class="page active" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 50%;">
+    <thead>
+      <tr>
+        <th>이름</th><th>사진</th><th>공격력</th><th>치명타</th><th>치명피해</th><th>치피저</th><th>HP</th><th>치저</th><th>마방</th><th>물방</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>란</td>
+        <td><img src="사도/순/란.png" alt="란"></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+      </tr>
+      <tr>
+        <td>우로스</td>
+        <td><img src="사도/공명/우로스.png" alt="우로스"></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+      </tr>
+    </tbody>
+  </table>
 
-<!-- 페이지 1 -->
-<table id="page1" class="page active">
-  <thead>
-    <tr>
-      <th>이름</th><th>사진</th><th>공격력</th><th>치명타</th><th>치명피해</th>
-      <th>치피저</th><th>HP</th><th>치저</th><th>마방</th><th>물방</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>란</td>
-      <td><img src="사도/순/란.png" alt="란"></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-    </tr>
-    <tr>
-      <td>우로스</td>
-      <td><img src="사도/공명/우로스.png" alt="우로스"></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-    </tr>
-  </tbody>
-</table>
+  <!-- 페이지 2 -->
+  <table id="page2" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 50%;">
+    <thead>
+      <tr>
+        <th>이름</th><th>사진</th><th>공격력</th><th>치명타</th><th>치명피해</th><th>치피저</th><th>HP</th><th>치저</th><th>마방</th><th>물방</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>란</td>
+        <td><img src="사도/순/란.png" alt="란"></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+      </tr>
+      <tr>
+        <td>우로스</td>
+        <td><img src="사도/공명/우로스.png" alt="우로스"></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+      </tr>
+    </tbody>
+  </table>
 
-<!-- 페이지 2 -->
-<table id="page2" class="page">
-  <thead>
-    <tr>
-      <th>이름</th><th>사진</th><th>공격력</th><th>치명타</th><th>치명피해</th>
-      <th>치피저</th><th>HP</th><th>치저</th><th>마방</th><th>물방</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>란</td>
-      <td><img src="사도/순/란.png" alt="란"></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-    </tr>
-    <tr>
-      <td>우로스</td>
-      <td><img src="사도/공명/우로스.png" alt="우로스"></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-      <td><select><option>-</option><option>O</option><option>X</option></select></td>
-    </tr>
-  </tbody>
-</table>
+  <script>
+    let db;
 
-<script>
-let db;
+    async function initDB() {
+      const SQL = await initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}` });
+      db = new SQL.Database();
+      db.run("CREATE TABLE IF NOT EXISTS board (page INT, row INT, col INT, value TEXT)");
+    }
 
-async function initDB() {
-  const SQL = await initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}` });
-  db = new SQL.Database();
-  db.run("CREATE TABLE IF NOT EXISTS board (page INT, rowId TEXT, col INT, value TEXT)");
-}
+    function showPage(num) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page' + num).classList.add('active');
+      document.getElementById('pageIndicator').textContent = "현재 페이지: " + num + "관";
+    }
 
-// 페이지 전환
-function showPage(num) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page' + num).classList.add('active');
-  document.getElementById('pageIndicator').textContent = "현재 페이지: " + num + "관";
-}
-
-// 저장
-function saveSQLite() {
-  db.run("DELETE FROM board");
-
-  document.querySelectorAll('table').forEach((table, pageIdx) => {
-    table.querySelectorAll('tbody tr').forEach((tr, rowIdx) => {
-      const rowId = tr.querySelector('td:first-child').textContent; // 이름으로 rowId 사용
-      tr.querySelectorAll('td select').forEach((sel, colIdx) => {
-        db.run("INSERT INTO board VALUES (?, ?, ?, ?)", [pageIdx+1, rowId, colIdx, sel.value]);
-      });
-    });
-  });
-
-  const binaryArray = db.export();
-  const blob = new Blob([binaryArray], {type: 'application/octet-stream'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = "board.sqlite";
-  a.click();
-  URL.revokeObjectURL(url);
-  alert("SQLite 저장 완료!");
-}
-
-// 불러오기
-function loadSQLite() {
-  const fileInput = document.getElementById('loadFile');
-  if (!fileInput.files.length) { alert("파일 선택!"); return; }
-
-  const reader = new FileReader();
-  reader.onload = function() {
-    const Uints = new Uint8Array(reader.result);
-    db = new SQL.Database(Uints);
-
-    document.querySelectorAll('table').forEach((table, pageIdx) => {
-      table.querySelectorAll('tbody tr').forEach(tr => {
-        const rowId = tr.querySelector('td:first-child').textContent;
-        tr.querySelectorAll('td select').forEach((sel, colIdx) => {
-          const stmt = db.prepare("SELECT value FROM board WHERE page=? AND rowId=? AND col=?");
-          stmt.bind([pageIdx+1, rowId, colIdx]);
-          if(stmt.step()) sel.value = stmt.get()[0];
-          stmt.free();
+    function saveSQLite() {
+      db.run("DELETE FROM board");
+      document.querySelectorAll('table').forEach((table, pageIdx) => {
+        table.querySelectorAll('tbody tr').forEach((tr, rowIdx) => {
+          tr.querySelectorAll('td select').forEach((sel, colIdx) => {
+            db.run("INSERT INTO board VALUES (?, ?, ?, ?)", [pageIdx + 1, rowIdx, colIdx, sel.value]);
+          });
         });
       });
-    });
+      const binaryArray = db.export();
+      const blob = new Blob([binaryArray], {type: 'application/octet-stream'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "board.sqlite";
+      a.click();
+      URL.revokeObjectURL(url);
+      alert("SQLite 저장 완료!");
+    }
 
-    alert("SQLite 불러오기 완료!");
-  };
-  reader.readAsArrayBuffer(fileInput.files[0]);
-}
+    function loadSQLite() {
+      const fileInput = document.getElementById('loadFile');
+      if (!fileInput.files.length) { alert("파일 선택!"); return; }
 
-initDB();
-</script>
+      const reader = new FileReader();
+      reader.onload = function() {
+        const Uints = new Uint8Array(reader.result);
+        db = new SQL.Database(Uints);
+
+        document.querySelectorAll('table').forEach((table, pageIdx) => {
+          table.querySelectorAll('tbody tr').forEach((tr, rowIdx) => {
+            tr.querySelectorAll('td select').forEach((sel, colIdx) => {
+              const stmt = db.prepare("SELECT value FROM board WHERE page=? AND row=? AND col=?");
+              stmt.bind([pageIdx + 1, rowIdx, colIdx]);
+              if (stmt.step()) {
+                sel.value = stmt.get()[0];
+              }
+              stmt.free();
+            });
+          });
+        });
+
+        alert("SQLite 불러오기 완료!");
+      };
+      reader.readAsArrayBuffer(fileInput.files[0]);
+    }
+
+    initDB();
+  </script>
 </body>
 </html>
