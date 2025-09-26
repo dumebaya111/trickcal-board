@@ -28,39 +28,6 @@
   
   <!-- 페이지 1 -->
   <div id="page1-stats" style="margin-top:10px; font-weight:bold;"></div>
-
-  <script>
-  function updateStats() {
-    document.querySelectorAll('.page').forEach((table, pageIdx) => {
-      let Ocount = 0, Xcount = 0;
-      table.querySelectorAll('tbody tr td select').forEach(sel => {
-        if (sel.value === 'O') Ocount++;
-        else if (sel.value === 'X') Xcount++;
-      });
-
-      const score = Ocount*2 - Xcount*1 + dashCount*0.5; // 원하는 공식
-      const div = document.getElementById(`page${pageIdx+1}-stats`);
-      if(div){
-        div.textContent = `O: ${Ocount}, X: ${Xcount}, -: ${dashCount}, 점수: ${score}`;
-      }
-    });
-  }
-
-  document.querySelectorAll('table td select').forEach(sel => {
-    sel.addEventListener('change', updateStats);
-  });
-
-  updateStats();
-  </script>
-
-    // 결과 출력
-    for (const page in counts) {
-      alert(`페이지 ${page}: O=${counts[page].O}, X=${counts[page].X}, -=${counts[page]['-']}`);
-    }
-  }
-  </script>
-
-<button onclick="countValues()">페이지별 O/X/- 개수 확인</button>
   
   <!-- 페이지 2 -->
   
