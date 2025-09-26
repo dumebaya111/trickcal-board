@@ -18,14 +18,41 @@
   <div id="pageIndicator">현재 페이지: 1관</div>
 
   <div style="text-align:center;">
-    <button onclick="showPage(1)">1관</button>
-    <button onclick="showPage(2)">2관</button>
+    <button onclick="showPage(1)">메인화면</button>
+    <button onclick="showPage(2)">1관</button>
+    <button onclick="showPage(3)">2관</button>
     <button id="btnSave" onclick="saveSQLite()" disabled>저장</button>
     <input type="file" id="loadFile" accept=".sqlite" disabled>
     <button id="btnLoad" onclick="loadSQLite()" disabled>불러오기</button>
   </div>
-
+  
   <!-- 페이지 1 -->
+
+  <script>
+  function countValues() {
+    const counts = {}; // 페이지별 집계
+
+    document.querySelectorAll('.page').forEach((table, pageIdx) => {
+      let Ocount = 0, Xcount = 0, dashCount = 0;
+      table.querySelectorAll('tbody tr td select').forEach(sel => {
+        if (sel.value === 'O') Ocount++;
+        else if (sel.value === 'X') Xcount++;
+        else if (sel.value === '-') dashCount++;
+      });
+      counts[pageIdx + 1] = {O: Ocount, X: Xcount, '-': dashCount};
+    });
+
+    // 결과 출력
+    for (const page in counts) {
+      alert(`페이지 ${page}: O=${counts[page].O}, X=${counts[page].X}, -=${counts[page]['-']}`);
+    }
+  }
+  </script>
+
+<button onclick="countValues()">페이지별 O/X/- 개수 확인</button>
+  
+  <!-- 페이지 2 -->
+  
   <table id="page1" class="page active" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 50%;">
     <thead>
       <tr>
@@ -72,7 +99,7 @@
     </tbody>
   </table>
 
-  <!-- 페이지 2 -->
+  <!-- 페이지 3 -->
   <table id="page2" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 50%;">
     <thead>
       <tr>
