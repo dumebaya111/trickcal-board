@@ -112,24 +112,28 @@
     }
 
     function loadSQLite() {
-      const fileInput = document.getElementById('loadFile');
-      if (!fileInput.files.length) { alert("파일 선택!"); return; }
-      const reader = new FileReader();
-      reader.onload = function() {
-        const Uints = new Uint8Array(reader.result);
-        db = new SQL.Database(Uints);
-        document.querySelectorAll('table').forEach((table, pageIdx) => {
-          table.querySelectorAll('tbody tr').forEach((tr, rowIdx) => {
-            tr.querySelectorAll('td select').forEach((sel, colIdx) => {
-              const res = db.exec("SELECT value FROM board WHERE page=? AND row=? AND col=?", [pageIdx+1, rowIdx, colIdx]);
-              if(res[0] && res[0].values.length) sel.value = res[0].values[0][0];
-            });
-          });
+  const fileInput = document.getElementById('loadFile');
+  if (!fileInput.files.length) { alert("파일 선택!"); return; }
+  const reader = new FileReader();
+  reader.onload = function() {
+    const Uints = new Uint8Array(reader.result);
+    db = new SQL.Database(Uints);
+    document.querySelectorAll('table').forEach((table, pageIdx) => {
+      table.querySelectorAll('tbody tr').forEach((tr, rowIdx) => {
+        tr.querySelectorAll('td select').forEach((sel, colIdx) => {
+          let stmt = db.prepare("SELECT value FROM board WHERE page=? AND row=? AND col=?");
+          stmt.bind([pageIdx+1, rowIdx, colIdx]);
+          if(stmt.step()) {
+            sel.value = stmt.get()[0];
+          }
+          stmt.free();
         });
-        alert("SQLite 불러오기 완료!");
-      };
-      reader.readAsArrayBuffer(fileInput.files[0]);
-    }
+      });
+    });
+    alert("SQLite 불러오기 완료!");
+  };
+  reader.readAsArrayBuffer(fileInput.files[0]);
+}
 
     initDB();
   </script>
