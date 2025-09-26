@@ -25,6 +25,7 @@
     <input type="file" id="loadFile" accept=".sqlite" disabled>
     <button id="btnLoad" onclick="loadSQLite()" disabled>불러오기</button>
   </div>
+  
   <!-- 페이지 1 -->
   <table id="page1" class="page active">
     임시
@@ -128,7 +129,7 @@
     function showPage(num) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById('page' + num).classList.add('active');
-      document.getElementById('pageIndicator').textContent = "현재 페이지: " + num + "관";
+      document.getElementById('pageIndicator').textContent = "현재 페이지: " + (num === 1 ? "메인시트" : (num-1) + "관");
     }
 
     function saveSQLite() {
