@@ -45,6 +45,7 @@
         <td><select><option>-</option><option>O</option><option>X</option></select></td>
         <td><select><option>-</option><option>O</option><option>X</option></select></td>
       </tr>
+      <tr>
         <td>비비</td>
         <td><img src="사도/순/비비.png" alt="비비"></td>
         <td><select><option>-</option><option>O</option><option>X</option></select></td>
@@ -55,6 +56,7 @@
         <td><select><option>-</option><option>O</option><option>X</option></select></td>
         <td><select><option>-</option><option>O</option><option>X</option></select></td>
         <td><select><option>-</option><option>O</option><option>X</option></select></td>
+      </tr>
       <tr>
         <td>우로스</td>
         <td><img src="사도/공명/우로스.png" alt="우로스"></td>
@@ -90,6 +92,16 @@
         <td><select><option>-</option><option>O</option><option>X</option></select></td>
         <td><select><option>-</option><option>O</option><option>X</option></select></td>
       </tr>
+        <td>비비</td>
+        <td><img src="사도/순/비비.png" alt="비비"></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
+        <td><select><option>-</option><option>O</option><option>X</option></select></td>
       <tr>
         <td>우로스</td>
         <td><img src="사도/공명/우로스.png" alt="우로스"></td>
@@ -107,12 +119,12 @@
 
   <script>
     let db;
-    let SQL; // <- 전역으로 선언
+    let SQL; // 전역 SQL 객체
 
     async function initDB() {
       SQL = await initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}` });
       db = new SQL.Database();
-      db.run("CREATE TABLE IF NOT EXISTS board (page INT, row INT, col INT, value TEXT)");
+      db.run("CREATE TABLE IF NOT EXISTS board (page INT, name TEXT, col INT, value TEXT)");
 
       document.getElementById('btnSave').disabled = false;
       document.getElementById('btnLoad').disabled = false;
@@ -128,14 +140,15 @@
     function saveSQLite() {
       db.run("DELETE FROM board");
       document.querySelectorAll('table').forEach((table, pageIdx) => {
-        table.querySelectorAll('tbody tr').forEach((tr, rowIdx) => {
+        table.querySelectorAll('tbody tr').forEach((tr) => {
+          const name = tr.querySelector('td').textContent.trim(); // 이름 기반
           tr.querySelectorAll('td select').forEach((sel, colIdx) => {
-            db.run("INSERT INTO board VALUES (?, ?, ?, ?)", [pageIdx+1, rowIdx, colIdx, sel.value]);
+            db.run("INSERT INTO board VALUES (?, ?, ?, ?)", [pageIdx + 1, name, colIdx, sel.value]);
           });
         });
       });
       const binaryArray = db.export();
-      const blob = new Blob([binaryArray], {type: 'application/octet-stream'});
+      const blob = new Blob([binaryArray], { type: 'application/octet-stream' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -150,26 +163,27 @@
       if (!fileInput.files.length) { alert("파일 선택!"); return; }
 
       const reader = new FileReader();
-      reader.onload = function() {
+      reader.onload = function () {
         try {
           const Uints = new Uint8Array(reader.result);
           const newDB = new SQL.Database(Uints);
 
           // board 테이블 존재 여부 확인
           const res = newDB.exec("SELECT name FROM sqlite_master WHERE type='table' AND name='board'");
-          if(res.length === 0){
+          if (res.length === 0) {
             alert("board 테이블이 없습니다!");
             return;
           }
 
           document.querySelectorAll('table').forEach((table, pageIdx) => {
-            table.querySelectorAll('tbody tr').forEach((tr, rowIdx) => {
+            table.querySelectorAll('tbody tr').forEach((tr) => {
+              const name = tr.querySelector('td').textContent.trim(); // 이름 기준
               tr.querySelectorAll('td select').forEach((sel, colIdx) => {
-                const stmt = newDB.prepare("SELECT value FROM board WHERE page=? AND row=? AND col=?");
-                stmt.bind([pageIdx + 1, rowIdx, colIdx]);
-                if(stmt.step()){
+                const stmt = newDB.prepare("SELECT value FROM board WHERE page=? AND name=? AND col=?");
+                stmt.bind([pageIdx + 1, name, colIdx]);
+                if (stmt.step()) {
                   const val = stmt.get()[0];
-                  if(val) sel.value = val;
+                  if (val) sel.value = val;
                 }
                 stmt.free();
               });
@@ -178,7 +192,7 @@
 
           db = newDB; // 새 DB 적용
           alert("SQLite 불러오기 완료!");
-        } catch(e) {
+        } catch (e) {
           console.error(e);
           alert("SQLite 불러오기 실패: " + e.message);
         }
