@@ -1,90 +1,122 @@
-<table border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 100%;">
-  <thead>
-    <tr>
-      <th>이름</th>
-      <th>사진</th>
-      <th>공격력</th>
-      <th>치명타</th>
-      <th>치명피해</th>
-      <th>치피저</th>
-      <th>HP</th>
-      <th>치저</th>
-      <th>마방</th>
-      <th>물방</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>란</td>
-      <td><img src="사도/순/란.png" alt="란" style="width:100%; height:auto;"></td>
-      <td>
-        <select style="font-size:16px; padding:5px; height:30px;">
-          <option value="-">-</option>
-          <option value="O">O</option>
-          <option value="X">O</option>
-        </select>
-      </td>
-      <td>
-        <select style="font-size:16px; padding:5px; height:30px;">
-          <option value="-">-</option>
-          <option value="O">O</option>
-          <option value="X">O</option>
-        </select>
-      </td>
-            <td>
-        <select style="font-size:16px; padding:5px; height:30px;">
-          <option value="-">-</option>
-          <option value="O">O</option>
-          <option value="X">O</option>
-        </select>
-      </td>
-      <td>
-        <select style="font-size:16px; padding:5px; height:30px;">
-          <option value="-">-</option>
-          <option value="O">O</option>
-          <option value="X">O</option>
-        </select>
-      </td>
-            <td>
-        <select style="font-size:16px; padding:5px; height:30px;">
-          <option value="-">-</option>
-          <option value="O">O</option>
-          <option value="X">O</option>
-        </select>
-      </td>
-      <td>
-        <select style="font-size:16px; padding:5px; height:30px;">
-          <option value="-">-</option>
-          <option value="O">O</option>
-          <option value="X">O</option>
-        </select>
-      </td>
-            <td>
-        <select style="font-size:16px; padding:5px; height:30px;">
-          <option value="-">-</option>
-          <option value="O">O</option>
-          <option value="X">O</option>
-        </select>
-      </td>
-      <td>
-        <select style="font-size:16px; padding:5px; height:30px;">
-          <option value="-">-</option>
-          <option value="O">O</option>
-          <option value="X">O</option>
-        </select>
-      </td>
-    <tr>
-      <td>행1-열1</td>
-      <td>행1-열2</td>
-      <td>행1-열3</td>
-      <td>행1-열4</td>
-      <td>행1-열5</td>
-      <td>행1-열6</td>
-      <td>행1-열7</td>
-      <td>행1-열8</td>
-      <td>행1-열9</td>
-      <td>행1-열10</td>
-    </tr>
-  </tbody>
-</table>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>트릭컬 보드</title>
+  <style>
+    .page { display: none; }
+    .active { display: block; }
+    button { margin: 5px; padding: 8px 12px; }
+  </style>
+</head>
+<body>
+  <!-- 페이지 버튼 -->
+  <div style="text-align:center;">
+    <button onclick="showPage(1)">1번 페이지</button>
+    <button onclick="showPage(2)">2번 페이지</button>
+  </div>
+
+  <!-- 페이지 1 -->
+
+  <table border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 100%;">
+    <thead>
+      <tr>
+        <th>이름</th>
+        <th>사진</th>
+        <th>공격력</th>
+        <th>치명타</th>
+        <th>치명피해</th>
+        <th>치피저</th>
+        <th>HP</th>
+        <th>치저</th>
+        <th>마방</th>
+        <th>물방</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>란</td>
+        <td><img src="사도/순/란.png" alt="란" style="width:100%; height:auto;"></td>
+        <td>
+          <select style="font-size:16px; padding:5px; height:30px;">
+            <option value="-">-</option>
+            <option value="O">O</option>
+            <option value="X">X</option>
+          </select>
+        </td>
+        <tr>
+        <td>란</td>
+        <td><img src="사도/순/란.png" alt="란" style="width:100%; height:auto;"></td>
+        <td>
+          <select style="font-size:16px; padding:5px; height:30px;">
+            <option value="-">-</option>
+            <option value="O">O</option>
+            <option value="X">X</option>
+          </select>
+        </td>
+        <tr>
+        <td>란</td>
+        <td><img src="사도/순/란.png" alt="란" style="width:100%; height:auto;"></td>
+        <td>
+          <select style="font-size:16px; padding:5px; height:30px;">
+            <option value="-">-</option>
+            <option value="O">O</option>
+            <option value="X">X</option>
+          </select>
+        </td>
+        <tr>
+        <td>란</td>
+        <td><img src="사도/순/란.png" alt="란" style="width:100%; height:auto;"></td>
+        <td>
+          <select style="font-size:16px; padding:5px; height:30px;">
+            <option value="-">-</option>
+            <option value="O">O</option>
+            <option value="X">X</option>
+          </select>
+        </td>
+        <td>
+          <select style="font-size:16px; padding:5px; height:30px;">
+            <option value="-">-</option>
+            <option value="O">O</option>
+            <option value="X">X</option>
+          </select>
+        </td>
+        <tr>
+        <td>란</td>
+        <td><img src="사도/순/란.png" alt="란" style="width:100%; height:auto;"></td>
+        <td>
+          <select style="font-size:16px; padding:5px; height:30px;">
+            <option value="-">-</option>
+            <option value="O">O</option>
+            <option value="X">X</option>
+          </select>
+        </td>
+        <tr>
+        <td>란</td>
+        <td><img src="사도/순/란.png" alt="란" style="width:100%; height:auto;"></td>
+        <td>
+          <select style="font-size:16px; padding:5px; height:30px;">
+            <option value="-">-</option>
+            <option value="O">O</option>
+            <option value="X">X</option>
+          </select>
+        </td>
+    </tbody>
+  </table>
+
+  <!-- 페이지 2 -->
+  <div id="page2" class="page">
+    <h2>페이지 2</h2>
+    <p>2관</p>
+  </div>
+  
+  <script>
+    function showPage(num) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page' + num).classList.add('active');
+    }
+  </script>
+</body>
+</html>
+
 
