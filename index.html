@@ -293,23 +293,29 @@
       reader.readAsArrayBuffer(fileInput.files[0]);
     }
 
-    // 필터 함수
+    // 필터 함수 (O/X 정상 작동)
     function applyFilters(table) {
       const filters = Array.from(table.querySelectorAll('.filterRow input, .filterRow select'));
       table.querySelectorAll('tbody tr').forEach(tr => {
         let show = true;
         filters.forEach((filter, idx) => {
           if (!show) return;
+
           const val = filter.value;
-          if (!val) return; // 전체 선택이면 필터 무시
+          if (!val) return; // 전체 선택이면 무시
+
           const cell = tr.cells[idx];
           if (!cell) return;
+
           const cellSelect = cell.querySelector('select');
           const cellVal = cellSelect ? cellSelect.value : cell.textContent.trim();
-          if (cell.tagName === 'TD' && filter.tagName === 'INPUT') {
-            if (!cellVal.includes(val)) show = false; // 이름 필터는 포함 검색
-          } else {
-            if (cellVal !== val) show = false; // O/X 필터는 정확히 일치
+
+          if (filter.tagName === 'INPUT') {
+            // 이름 포함 검색
+            if (!cellVal.includes(val)) show = false;
+          } else if (filter.tagName === 'SELECT') {
+            // O/X 필터, '-'는 무시
+            if (cellVal !== val) show = false;
           }
         });
         tr.style.display = show ? '' : 'none';
@@ -324,15 +330,10 @@
       });
     });
 
-    // 필터 이벤트 연결
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.filterRow input, .filterRow select').forEach(filter => {
-        filter.addEventListener('input', e => applyFilters(e.target.closest('table')));
-        filter.addEventListener('change', e => applyFilters(e.target.closest('table')));
-      });
-    });
-
     initDB();
   </script>
+</body>
+</html>
+
 </body>
 </html>
