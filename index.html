@@ -33,11 +33,12 @@
     const counts = {}; // 페이지별 집계
 
     document.querySelectorAll('.page').forEach((table, pageIdx) => {
-      let Ocount = 0, Xcount = 0, dashCount = 0;
+      if (pageIdx < 1) return;
+      
+      let Ocount = 0, Xcount = 0;
       table.querySelectorAll('tbody tr td select').forEach(sel => {
         if (sel.value === 'O') Ocount++;
         else if (sel.value === 'X') Xcount++;
-        else if (sel.value === '-') dashCount++;
       });
       counts[pageIdx + 1] = {O: Ocount, X: Xcount, '-': dashCount};
     });
