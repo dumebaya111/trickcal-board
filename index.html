@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -134,8 +134,9 @@
     function saveSQLite() {
       db.run("DELETE FROM board");
       document.querySelectorAll('table').forEach((table, pageIdx) => {
+        if (pageIdx === 0) return; // 1페이지는 무시
         table.querySelectorAll('tbody tr').forEach((tr) => {
-          const name = tr.querySelector('td').textContent.trim(); // 이름 기반
+          const name = tr.querySelector('td').textContent.trim(); 
           tr.querySelectorAll('td select').forEach((sel, colIdx) => {
             db.run("INSERT INTO board VALUES (?, ?, ?, ?)", [pageIdx + 1, name, colIdx, sel.value]);
           });
@@ -151,7 +152,6 @@
       URL.revokeObjectURL(url);
       alert("SQLite 저장 완료!");
     }
-
     function loadSQLite() {
       const fileInput = document.getElementById('loadFile');
       if (!fileInput.files.length) { alert("파일 선택!"); return; }
@@ -170,8 +170,9 @@
           }
 
           document.querySelectorAll('table').forEach((table, pageIdx) => {
+            if (pageIdx === 0) return; // 1페이지는 무시
             table.querySelectorAll('tbody tr').forEach((tr) => {
-              const name = tr.querySelector('td').textContent.trim(); // 이름 기준
+              const name = tr.querySelector('td').textContent.trim(); 
               tr.querySelectorAll('td select').forEach((sel, colIdx) => {
                 const stmt = newDB.prepare("SELECT value FROM board WHERE page=? AND name=? AND col=?");
                 stmt.bind([pageIdx + 1, name, colIdx]);
