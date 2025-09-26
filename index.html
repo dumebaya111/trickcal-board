@@ -60,7 +60,7 @@
     </tbody>
   </table>
 
-  <!-- 페이지 2 -->
+  <!-- 페이지 2  -->
   <table id="page2" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 50%;">
     <thead>
       <tr>
@@ -133,6 +133,13 @@
     function loadSQLite() {
       const fileInput = document.getElementById('loadFile');
       if (!fileInput.files.length) { alert("파일 선택!"); return; }
+
       const reader = new FileReader();
       reader.onload = function() {
         const Uints = new Uint8Array(reader.result);
+        db = new SQL.Database(Uints);
+
+        document.querySelectorAll('table').forEach((table, pageIdx) => {
+          table.querySelectorAll('tbody tr').forEach((tr, rowIdx) => {
+            tr.querySelectorAll('td select').forEach((sel, colIdx) => {
+              let stmt = db.prepare("SELECT value FROM board WHERE page=? AND row=? AND col
