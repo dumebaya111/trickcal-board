@@ -210,6 +210,7 @@
 
   <script>
     let db;
+    let SQL; // ✅ 전역 SQL 객체
 
     // 페이지 전환
     function showPage(num) {
@@ -221,7 +222,9 @@
 
     // DB 초기화
     async function initDB() {
-      const SQL = await initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}` });
+      SQL = await initSqlJs({
+        locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+      });
       db = new SQL.Database();
       db.run("CREATE TABLE IF NOT EXISTS board (page INTEGER, name TEXT, col INTEGER, value TEXT)");
       document.getElementById("btnSave").disabled = false;
@@ -254,20 +257,22 @@
     }
 
     // 불러오기
+    // 불러오기
     function loadSQLite(event) {
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = () => {
         const Uints = new Uint8Array(reader.result);
-        db = new SQL.Database(Uints);
+        db = new SQL.Database(Uints); // ✅ 여기서 SQL이 전역에 있어야 함
         const res = db.exec("SELECT * FROM board");
         if (res.length > 0) {
           const rows = res[0].values;
           rows.forEach(([page, name, col, value]) => {
             const table = document.getElementById("page" + page);
             if (!table) return;
-            const tr = Array.from(table.querySelectorAll('tbody tr')).find(r => r.querySelector('td:first-child')?.textContent.trim() === name);
+            const tr = Array.from(table.querySelectorAll('tbody tr'))
+              .find(r => r.querySelector('td:first-child')?.textContent.trim() === name);
             if (tr) {
               const sel = tr.querySelectorAll('td select')[col];
               if (sel) sel.value = value;
@@ -278,6 +283,8 @@
       };
       reader.readAsArrayBuffer(file);
     }
+
+    window.addEventListener("DOMContentLoaded", initDB);
 
     // 필터 적용 (예시: 선택이 O인 행만 표시)
     function applyFilters() {
