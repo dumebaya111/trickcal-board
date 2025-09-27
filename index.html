@@ -8,232 +8,78 @@
     .page { display: none; }
     .active { display: table; }
     button { margin: 5px; padding: 8px 12px; }
-    #pageIndicator { text-align: center; font-size: 24px; margin: 15px 15px; font-weight: bold; }
-    table th, table td { text-align: center; vertical-align: middle; }
-    select, input[type="text"] { font-size: 50px; height: 60px; width: 100%; box-sizing: border-box; }
-    img { width: 80px; height: auto; display: block; margin: 0 auto; }
-    .filterRow input, .filterRow select { font-size: 30px; height: 50px; }
   </style>
 </head>
 <body>
-  <div id="pageIndicator">현재 페이지: 메인</div>
-
-  <div style="text-align:center;">
-    <button onclick="showPage(1)">메인</button>
+  <div>
+    <button onclick="showPage(1)">메인시트</button>
     <button onclick="showPage(2)">1관</button>
     <button onclick="showPage(3)">2관</button>
-    <button onclick="showPage(4)">3관</button>
     <button id="btnSave" onclick="saveSQLite()" disabled>저장</button>
-    <input type="file" id="loadFile" accept=".sqlite" disabled>
-    <button id="btnLoad" onclick="loadSQLite()" disabled>불러오기</button>
+    <input type="file" id="fileInput" style="display:none" onchange="loadSQLite(event)">
+    <button id="btnLoad" onclick="document.getElementById('fileInput').click()" disabled>불러오기</button>
+    <span id="pageIndicator">현재 페이지: 메인시트</span>
   </div>
-  
-  <!-- 페이지 1 -->
-  <table id="page1" class="page active"></table>
 
-  <!-- 페이지 2 -->
-  <table id="page2" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 50%;">
-    <thead>
-      <tr>
-        <th>이름</th><th>사진</th><th>공격력</th><th>치명타</th><th>치명피해</th>
-        <th>치피저</th><th>HP</th><th>치저</th><th>마방</th><th>물방</th>
-      </tr>
-      <tr class="filterRow">
-        <td><input type="text" placeholder="이름"></td>
-        <td></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-      </tr>
-    </thead>
+  <!-- 페이지들 -->
+  <table id="page1" class="page active" border="1">
+    <thead><tr><th>이름</th><th>선택</th></tr></thead>
     <tbody>
-      <tr>
-        <td>비비</td>
-        <td><img src="사도/순/비비.png" alt="비비"></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
-        <td><select><option>X</option><option>O</option></select></td>
-      </tr>
-      <tr>
-        <td>란</td>
-        <td><img src="사도/순/란.png" alt="란"></td>
-        <td>-</td><td>-</td><td>-</td><td>-</td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td>-</td><td>-</td>
-      </tr>
-      <tr>
-        <td>우로스</td>
-        <td><img src="사도/공명/우로스.png" alt="우로스"></td>
-        <td>-</td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td>-</td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td>-</td><td>-</td><td>-</td><td>-</td>
-      </tr>
+      <tr><td>캐릭터A</td><td><select><option>-</option><option>O</option><option>X</option></select></td></tr>
+      <tr><td>캐릭터B</td><td><select><option>-</option><option>O</option><option>X</option></select></td></tr>
     </tbody>
   </table>
-  
-  <!-- 페이지 3 -->
-  <table id="page3" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 50%;">
-    <thead>
-      <tr>
-        <th>이름</th><th>사진</th><th>공격력</th><th>치명타</th><th>치명피해</th>
-        <th>치피저</th><th>HP</th><th>치저</th><th>마방</th><th>물방</th>
-      </tr>
-      <tr class="filterRow">
-        <td><input type="text" placeholder="이름"></td>
-        <td></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-      </tr>
-    </thead>
+
+  <table id="page2" class="page" border="1">
+    <thead><tr><th>이름</th><th>선택</th></tr></thead>
     <tbody>
-      <tr>
-        <td>비비</td>
-        <td><img src="사도/순/비비.png" alt="비비"></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-      </tr>
-      <tr>
-        <td>란</td>
-        <td><img src="사도/순/란.png" alt="란"></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-      </tr>
-      <tr>
-        <td>우로스</td>
-        <td><img src="사도/공명/우로스.png" alt="우로스"></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-      </tr>
+      <tr><td>캐릭터C</td><td><select><option>-</option><option>O</option><option>X</option></select></td></tr>
+      <tr><td>캐릭터D</td><td><select><option>-</option><option>O</option><option>X</option></select></td></tr>
     </tbody>
   </table>
-  
-  <!-- 페이지 4 -->
-  <table id="page4" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 50%;">
-    <thead>
-      <tr>
-        <th>이름</th><th>사진</th><th>공격력</th><th>치명타</th><th>치명피해</th>
-        <th>치피저</th><th>HP</th><th>치저</th><th>마방</th><th>물방</th>
-      </tr>
-      <tr class="filterRow">
-        <td><input type="text" placeholder="이름"></td>
-        <td></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-      </tr>
-    </thead>
+
+  <table id="page3" class="page" border="1">
+    <thead><tr><th>이름</th><th>선택</th></tr></thead>
     <tbody>
-      <tr>
-        <td>비비</td>
-        <td><img src="사도/순/비비.png" alt="비비"></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-      </tr>
-      <tr>
-        <td>란</td>
-        <td><img src="사도/순/란.png" alt="란"></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-      </tr>
-      <tr>
-        <td>우로스</td>
-        <td><img src="사도/공명/우로스.png" alt="우로스"></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-      </tr>
+      <tr><td>캐릭터E</td><td><select><option>-</option><option>O</option><option>X</option></select></td></tr>
+      <tr><td>캐릭터F</td><td><select><option>-</option><option>O</option><option>X</option></select></td></tr>
     </tbody>
   </table>
 
   <script>
     let db;
-    let SQL;
 
-    async function initDB() {
-      SQL = await initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}` });
-      db = new SQL.Database();
-      db.run("CREATE TABLE IF NOT EXISTS board (page INT, name TEXT, col INT, value TEXT)");
-
-      document.getElementById('btnSave').disabled = false;
-      document.getElementById('btnLoad').disabled = false;
-      document.getElementById('loadFile').disabled = false;
-    }
-
+    // 페이지 전환
     function showPage(num) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById('page' + num).classList.add('active');
-      document.getElementById('pageIndicator').textContent = "현재 페이지: " + (num === 1 ? "메인시트" : (num-1) + "관");
+      document.getElementById('pageIndicator').textContent =
+        "현재 페이지: " + (num === 1 ? "메인시트" : (num-1) + "관");
     }
 
-    // ✅ 저장 함수 수정
+    // DB 초기화
+    async function initDB() {
+      const SQL = await initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}` });
+      db = new SQL.Database();
+      db.run("CREATE TABLE IF NOT EXISTS board (page INTEGER, name TEXT, col INTEGER, value TEXT)");
+      document.getElementById("btnSave").disabled = false;
+      document.getElementById("btnLoad").disabled = false;
+    }
+
+    // 저장
     function saveSQLite() {
       db.run("DELETE FROM board");
       document.querySelectorAll('table').forEach((table, pageIdx) => {
-        if (pageIdx === 0) return; // 메인페이지 건너뛰기
+        if (pageIdx === 0) return; // 첫 번째(메인시트) 제외
         table.querySelectorAll('tbody tr').forEach((tr) => {
           const firstTd = tr.querySelector('td:first-child');
           if (!firstTd) return;
-          const name = firstTd.textContent.trim(); 
+          const name = firstTd.textContent.trim();
           tr.querySelectorAll('td select').forEach((sel, colIdx) => {
-            db.run("INSERT INTO board VALUES (?, ?, ?, ?)", [pageIdx + 1, name, colIdx, sel.value]);
+            db.run("INSERT INTO board VALUES (?, ?, ?, ?)", [pageIdx, name, colIdx, sel.value]);
           });
         });
       });
-
       const binaryArray = db.export();
       const blob = new Blob([binaryArray], { type: 'application/octet-stream' });
       const url = URL.createObjectURL(blob);
@@ -245,48 +91,48 @@
       alert("SQLite 저장 완료!");
     }
 
-
-    // ✅ 불러오기 함수 수정
-    function loadSQLite() {
-      const fileInput = document.getElementById('loadFile');
-      if (!fileInput.files.length) { alert("파일 선택!"); return; }
-
+    // 불러오기
+    function loadSQLite(event) {
+      const file = event.target.files[0];
+      if (!file) return;
       const reader = new FileReader();
-      reader.onload = function () {
-        try {
-          const Uints = new Uint8Array(reader.result);
-          const newDB = new SQL.Database(Uints);
-
-          const res = newDB.exec("SELECT name FROM sqlite_master WHERE type='table' AND name='board'");
-          if (res.length === 0) { alert("board 테이블이 없습니다!"); return; }
-
-          document.querySelectorAll('table').forEach((table) => {
-            const pageId = table.id.replace("page", "");
-            if (pageId === "1") return;
-
-            table.querySelectorAll('tbody tr').forEach((tr) => {
-              const name = tr.querySelector('td').textContent.trim(); 
-              tr.querySelectorAll('td select').forEach((sel, colIdx) => {
-                const stmt = newDB.prepare("SELECT value FROM board WHERE page=? AND name=? AND col=?");
-                stmt.bind([pageId, name, colIdx]);
-                if (stmt.step()) {
-                  const val = stmt.get()[0];
-                  if (val) sel.value = val;
-                }
-                stmt.free();
-              });
-            });
+      reader.onload = () => {
+        const Uints = new Uint8Array(reader.result);
+        db = new SQL.Database(Uints);
+        const res = db.exec("SELECT * FROM board");
+        if (res.length > 0) {
+          const rows = res[0].values;
+          rows.forEach(([page, name, col, value]) => {
+            const table = document.getElementById("page" + page);
+            if (!table) return;
+            const tr = Array.from(table.querySelectorAll('tbody tr')).find(r => r.querySelector('td:first-child')?.textContent.trim() === name);
+            if (tr) {
+              const sel = tr.querySelectorAll('td select')[col];
+              if (sel) sel.value = value;
+            }
           });
-
-          db = newDB;
-          alert("SQLite 불러오기 완료!");
-        } catch (e) {
-          console.error(e);
-          alert("SQLite 불러오기 실패: " + e.message);
         }
+        alert("SQLite 불러오기 완료!");
       };
-      reader.readAsArrayBuffer(fileInput.files[0]);
+      reader.readAsArrayBuffer(file);
     }
 
-    // 필터 함수
-    function applyFilters(table)
+    // 필터 적용 (예시: 선택이 O인 행만 표시)
+    function applyFilters() {
+      document.querySelectorAll('table').forEach(table => {
+        table.querySelectorAll('tbody tr').forEach(tr => {
+          const sel = tr.querySelector('td select');
+          if (sel && sel.value === "O") {
+            tr.style.display = "";
+          } else {
+            tr.style.display = "none";
+          }
+        });
+      });
+    }
+
+    // 페이지 로드 시 DB 준비
+    window.addEventListener("DOMContentLoaded", initDB);
+  </script>
+</body>
+</html>
