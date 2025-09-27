@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -234,14 +234,15 @@
     // 저장
     function saveSQLite() {
       db.run("DELETE FROM board");
-      document.querySelectorAll('table').forEach((table, pageIdx) => {
-        if (pageIdx === 0) return; // 첫 번째(메인시트) 제외
+      document.querySelectorAll('table').forEach((table) => {
+        const pageId = table.id.replace("page", ""); // ✅ 실제 페이지 번호 추출
+        if (pageId === "1") return; // 메인시트 제외
         table.querySelectorAll('tbody tr').forEach((tr) => {
           const firstTd = tr.querySelector('td:first-child');
           if (!firstTd) return;
           const name = firstTd.textContent.trim();
           tr.querySelectorAll('td select').forEach((sel, colIdx) => {
-            db.run("INSERT INTO board VALUES (?, ?, ?, ?)", [pageIdx, name, colIdx, sel.value]);
+            db.run("INSERT INTO board VALUES (?, ?, ?, ?)", [pageId, name, colIdx, sel.value]);
           });
         });
       });
@@ -255,8 +256,7 @@
       URL.revokeObjectURL(url);
       alert("SQLite 저장 완료!");
     }
-
-    // 불러오기
+  
     // 불러오기
     function loadSQLite(event) {
       const file = event.target.files[0];
