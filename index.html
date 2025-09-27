@@ -52,42 +52,29 @@
       </tr>
     </thead>
     <tbody>
-      <tbody>
+      <tr>
         <td>비비</td>
         <td><img src="사도/순/비비.png" alt="비비"></td>
         <td><select><option>X</option><option>O</option></select></td>
-        <td>-
-        <td>-
-        <td>-
-        <td>-
-        <td>-
-        <td>-
+        <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
         <td><select><option>X</option><option>O</option></select></td>
       </tr>
       <tr>
         <td>란</td>
         <td><img src="사도/순/란.png" alt="란"></td>
-        <td>-
-        <td>-
-        <td>-
-        <td>-
+        <td>-</td><td>-</td><td>-</td><td>-</td>
         <td><select><option>X</option><option>O</option></select></td>
         <td><select><option>X</option><option>O</option></select></td>
-        <td>-
-        <td>-
+        <td>-</td><td>-</td>
       </tr>
-      <tr>
       <tr>
         <td>우로스</td>
         <td><img src="사도/공명/우로스.png" alt="우로스"></td>
-        <td>-
+        <td>-</td>
         <td><select><option>X</option><option>O</option></select></td>
-        <td>-
+        <td>-</td>
         <td><select><option>X</option><option>O</option></select></td>
-        <td>-
-        <td>-
-        <td>-
-        <td>-
+        <td>-</td><td>-</td><td>-</td><td>-</td>
       </tr>
     </tbody>
   </table>
@@ -113,6 +100,7 @@
       </tr>
     </thead>
     <tbody>
+      <tr>
         <td>비비</td>
         <td><img src="사도/순/비비.png" alt="비비"></td>
         <td><select><option>X</option><option>O</option></select></td>
@@ -126,6 +114,7 @@
       </tr>
       <tr>
         <td>란</td>
+        <td><img src="사도/순/란.png" alt="란"></td>
         <td><select><option>X</option><option>O</option></select></td>
         <td><select><option>X</option><option>O</option></select></td>
         <td><select><option>X</option><option>O</option></select></td>
@@ -135,7 +124,6 @@
         <td><select><option>X</option><option>O</option></select></td>
         <td><select><option>X</option><option>O</option></select></td>
       </tr>
-      <tr>
       <tr>
         <td>우로스</td>
         <td><img src="사도/공명/우로스.png" alt="우로스"></td>
@@ -161,17 +149,18 @@
       <tr class="filterRow">
         <td><input type="text" placeholder="이름"></td>
         <td></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
-        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
       </tr>
     </thead>
     <tbody>
+      <tr>
         <td>비비</td>
         <td><img src="사도/순/비비.png" alt="비비"></td>
         <td><select><option>X</option><option>O</option></select></td>
@@ -196,7 +185,6 @@
         <td><select><option>X</option><option>O</option></select></td>
       </tr>
       <tr>
-      <tr>
         <td>우로스</td>
         <td><img src="사도/공명/우로스.png" alt="우로스"></td>
         <td><select><option>X</option><option>O</option></select></td>
@@ -210,7 +198,6 @@
       </tr>
     </tbody>
   </table>
-
 
   <script>
     let db;
@@ -232,14 +219,17 @@
       document.getElementById('pageIndicator').textContent = "현재 페이지: " + (num === 1 ? "메인시트" : (num-1) + "관");
     }
 
+    // ✅ 저장 함수 수정
     function saveSQLite() {
       db.run("DELETE FROM board");
-      document.querySelectorAll('table').forEach((table, pageIdx) => {
-        if (pageIdx === 0) return;
+      document.querySelectorAll('table').forEach((table) => {
+        const pageId = table.id.replace("page", "");
+        if (pageId === "1") return;
+
         table.querySelectorAll('tbody tr').forEach((tr) => {
           const name = tr.querySelector('td').textContent.trim(); 
           tr.querySelectorAll('td select').forEach((sel, colIdx) => {
-            db.run("INSERT INTO board VALUES (?, ?, ?, ?)", [pageIdx + 1, name, colIdx, sel.value]);
+            db.run("INSERT INTO board VALUES (?, ?, ?, ?)", [pageId, name, colIdx, sel.value]);
           });
         });
       });
@@ -254,6 +244,7 @@
       alert("SQLite 저장 완료!");
     }
 
+    // ✅ 불러오기 함수 수정
     function loadSQLite() {
       const fileInput = document.getElementById('loadFile');
       if (!fileInput.files.length) { alert("파일 선택!"); return; }
@@ -267,13 +258,15 @@
           const res = newDB.exec("SELECT name FROM sqlite_master WHERE type='table' AND name='board'");
           if (res.length === 0) { alert("board 테이블이 없습니다!"); return; }
 
-          document.querySelectorAll('table').forEach((table, pageIdx) => {
-            if (pageIdx === 0) return;
+          document.querySelectorAll('table').forEach((table) => {
+            const pageId = table.id.replace("page", "");
+            if (pageId === "1") return;
+
             table.querySelectorAll('tbody tr').forEach((tr) => {
               const name = tr.querySelector('td').textContent.trim(); 
               tr.querySelectorAll('td select').forEach((sel, colIdx) => {
                 const stmt = newDB.prepare("SELECT value FROM board WHERE page=? AND name=? AND col=?");
-                stmt.bind([pageIdx + 1, name, colIdx]);
+                stmt.bind([pageId, name, colIdx]);
                 if (stmt.step()) {
                   const val = stmt.get()[0];
                   if (val) sel.value = val;
@@ -293,50 +286,5 @@
       reader.readAsArrayBuffer(fileInput.files[0]);
     }
 
-    // 필터 함수 (O/X 정상 작동)
-    function applyFilters(table) {
-      const filters = Array.from(table.querySelectorAll('.filterRow input, .filterRow select'));
-      table.querySelectorAll('tbody tr').forEach(tr => {
-        let show = true;
-        filters.forEach((filter, fIdx) => {
-          if (!show) return;
-
-          const val = filter.value;
-          if (!val) return;
-
-          let cellVal = '';
-          if (filter.tagName === 'INPUT') {
-        
-            cellVal = tr.querySelector('td').textContent.trim();
-          } else if (filter.tagName === 'SELECT') {
-        // O/X 필터, td select 배열에서 fIdx-1로 보정
-            const tdSelects = Array.from(tr.querySelectorAll('td select'));
-            const sel = tdSelects[fIdx - 1]; 
-            if (!sel) return;
-            cellVal = sel.value;
-          }
-
-          if (filter.tagName === 'INPUT') {
-            if (!cellVal.includes(val)) show = false;
-          } else {
-            if (cellVal !== val) show = false;
-          }
-        });
-        tr.style.display = show ? '' : 'none';
-      });
-    }
-    // 필터 이벤트 연결
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.filterRow input, .filterRow select').forEach(filter => {
-        filter.addEventListener('input', e => applyFilters(e.target.closest('table')));
-        filter.addEventListener('change', e => applyFilters(e.target.closest('table')));
-      });
-    });
-
-    initDB();
-  </script>
-</body>
-</html>
-
-</body>
-</html>
+    // 필터 함수
+    function applyFilters(table)
