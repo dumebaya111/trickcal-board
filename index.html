@@ -287,37 +287,37 @@
 
     window.addEventListener("DOMContentLoaded", initDB);
 
-    // 필터 함수
     function applyFilters(table) {
-      const filters = Array.from(table.querySelectorAll('.filterRow input, .filterRow select'));
+      const filters = Array.from(table.querySelectorAll('.filterRow td'));
       table.querySelectorAll('tbody tr').forEach(tr => {
         let show = true;
+        const tds = tr.querySelectorAll('td');
 
-        filters.forEach((filter, fIdx) => {
+        filters.forEach((filterCell, fIdx) => {
           if (!show) return;
+          const filter = filterCell.querySelector('input, select');
+          if (!filter) return;
 
           const val = filter.value;
-          if (!val) return;
+          if (!val) return; // 필터가 "-"면 전체 보기니까 패스
 
-            const tds = tr.querySelectorAll('td');
-          let td;
-
-          if (filter.tagName === 'INPUT') {
-            td = tds[0]; // 이름 → 첫 번째 열
-          } else {
-            td = tds[fIdx + 1]; // select → 두 번째 열 건너뛰고 매칭
-          }
-
+          const td = tds[fIdx];
           if (!td) return;
 
           let cellVal = '';
           if (filter.tagName === 'INPUT') {
+            // 이름 검색
             cellVal = td.textContent.trim();
             if (!cellVal.includes(val)) show = false;
           } else if (filter.tagName === 'SELECT') {
             const sel = td.querySelector('select');
-            if (!sel) return;
-            cellVal = sel.value;
+            if (sel) {
+              cellVal = sel.value.trim(); // 셀에 select 있으면 값(O/X)
+            } else {
+              cellVal = "-"; // 셀에 select 없으면 그냥 "-"
+            }
+  
+            // 필터는 O/X 중 하나, 셀 값이 다르면 제외
             if (cellVal !== val) show = false;
           }
         });
@@ -325,17 +325,7 @@
         tr.style.display = show ? '' : 'none';
       });
     }
-
-    // 필터 이벤트 연결
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.filterRow input, .filterRow select').forEach(filter => {
-        filter.addEventListener('input', e => applyFilters(e.target.closest('table')));
-        filter.addEventListener('change', e => applyFilters(e.target.closest('table')));
-      });
-    });
-
-    initDB();
-
+    
     // 페이지 로드 시 DB 준비
     window.addEventListener("DOMContentLoaded", initDB);
   </script>
