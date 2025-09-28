@@ -287,38 +287,45 @@
 
     window.addEventListener("DOMContentLoaded", initDB);
 
-    // 필터 함수 (O/X 정상 작동)
+    // 필터 함수
     function applyFilters(table) {
       const filters = Array.from(table.querySelectorAll('.filterRow input, .filterRow select'));
       table.querySelectorAll('tbody tr').forEach(tr => {
         let show = true;
+
         filters.forEach((filter, fIdx) => {
           if (!show) return;
 
           const val = filter.value;
           if (!val) return;
 
-          let cellVal = '';
-          if (filter.tagName === 'INPUT') {
-        
-            cellVal = tr.querySelector('td').textContent.trim();
-          } else if (filter.tagName === 'SELECT') {
-        // O/X 필터, td select 배열에서 fIdx-1로 보정
-            const tdSelects = Array.from(tr.querySelectorAll('td select'));
-            const sel = tdSelects[fIdx - 1]; 
-            if (!sel) return;
-            cellVal = sel.value;
-          }
+            const tds = tr.querySelectorAll('td');
+          let td;
 
           if (filter.tagName === 'INPUT') {
-            if (!cellVal.includes(val)) show = false;
+            td = tds[0]; // 이름 → 첫 번째 열
           } else {
+            td = tds[fIdx + 1]; // select → 두 번째 열 건너뛰고 매칭
+          }
+
+          if (!td) return;
+
+          let cellVal = '';
+          if (filter.tagName === 'INPUT') {
+            cellVal = td.textContent.trim();
+            if (!cellVal.includes(val)) show = false;
+          } else if (filter.tagName === 'SELECT') {
+            const sel = td.querySelector('select');
+            if (!sel) return;
+            cellVal = sel.value;
             if (cellVal !== val) show = false;
           }
         });
+
         tr.style.display = show ? '' : 'none';
       });
     }
+
     // 필터 이벤트 연결
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.filterRow input, .filterRow select').forEach(filter => {
