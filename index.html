@@ -40,14 +40,14 @@
       <tr class="filterRow">
         <td><input type="text" placeholder="이름"></td>
         <td></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
       </tr>
     </thead>
     <tbody>
@@ -100,14 +100,14 @@
       <tr class="filterRow">
         <td><input type="text" placeholder="이름"></td>
         <td></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
       </tr>
     </thead>
     <tbody>
@@ -159,14 +159,14 @@
       <tr class="filterRow">
         <td><input type="text" placeholder="이름"></td>
         <td></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
-        <td><select><option value="">전체</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
       </tr>
     </thead>
     <tbody>
@@ -287,19 +287,47 @@
 
     window.addEventListener("DOMContentLoaded", initDB);
 
-    // 필터 적용 (예시: 선택이 O인 행만 표시)
-    function applyFilters() {
-      document.querySelectorAll('table').forEach(table => {
-        table.querySelectorAll('tbody tr').forEach(tr => {
-          const sel = tr.querySelector('td select');
-          if (sel && sel.value === "O") {
-            tr.style.display = "";
+    // 필터 함수 (O/X 정상 작동)
+    function applyFilters(table) {
+      const filters = Array.from(table.querySelectorAll('.filterRow input, .filterRow select'));
+      table.querySelectorAll('tbody tr').forEach(tr => {
+        let show = true;
+        filters.forEach((filter, fIdx) => {
+          if (!show) return;
+
+          const val = filter.value;
+          if (!val) return;
+
+          let cellVal = '';
+          if (filter.tagName === 'INPUT') {
+        
+            cellVal = tr.querySelector('td').textContent.trim();
+          } else if (filter.tagName === 'SELECT') {
+        // O/X 필터, td select 배열에서 fIdx-1로 보정
+            const tdSelects = Array.from(tr.querySelectorAll('td select'));
+            const sel = tdSelects[fIdx - 1]; 
+            if (!sel) return;
+            cellVal = sel.value;
+          }
+
+          if (filter.tagName === 'INPUT') {
+            if (!cellVal.includes(val)) show = false;
           } else {
-            tr.style.display = "none";
+            if (cellVal !== val) show = false;
           }
         });
+        tr.style.display = show ? '' : 'none';
       });
     }
+    // 필터 이벤트 연결
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.filterRow input, .filterRow select').forEach(filter => {
+        filter.addEventListener('input', e => applyFilters(e.target.closest('table')));
+        filter.addEventListener('change', e => applyFilters(e.target.closest('table')));
+      });
+    });
+
+    initDB();
 
     // 페이지 로드 시 DB 준비
     window.addEventListener("DOMContentLoaded", initDB);
