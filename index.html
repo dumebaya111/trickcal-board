@@ -288,36 +288,36 @@
     window.addEventListener("DOMContentLoaded", initDB);
 
     function applyFilters(table) {
-      const filters = Array.from(table.querySelectorAll('.filterRow td'));
+      const filterRow = table.querySelector('.filterRow');
+      if (!filterRow) return;
+
+      // 실제 필터(input/select)만 가져오기
+      const filters = Array.from(filterRow.querySelectorAll('input, select'));
+
       table.querySelectorAll('tbody tr').forEach(tr => {
         let show = true;
         const tds = tr.querySelectorAll('td');
 
-        filters.forEach((filterCell, fIdx) => {
+        filters.forEach((filter, fIdx) => {
           if (!show) return;
-          const filter = filterCell.querySelector('input, select');
-          if (!filter) return;
 
           const val = filter.value;
-          if (!val) return; // 필터가 "-"면 전체 보기니까 패스
+          if (!val) return; // 필터 "-" 선택 시 전체 보기
 
-          const td = tds[fIdx];
+          const td = tds[fIdx]; // 필터 열과 td 열을 1:1 매칭
           if (!td) return;
 
           let cellVal = '';
           if (filter.tagName === 'INPUT') {
-            // 이름 검색
             cellVal = td.textContent.trim();
             if (!cellVal.includes(val)) show = false;
           } else if (filter.tagName === 'SELECT') {
             const sel = td.querySelector('select');
             if (sel) {
-              cellVal = sel.value.trim(); // 셀에 select 있으면 값(O/X)
+              cellVal = sel.value.trim();
             } else {
-              cellVal = "-"; // 셀에 select 없으면 그냥 "-"
+              cellVal = "-"; // select 없는 경우
             }
-  
-            // 필터는 O/X 중 하나, 셀 값이 다르면 제외
             if (cellVal !== val) show = false;
           }
         });
