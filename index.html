@@ -291,7 +291,7 @@
       const filterRow = table.querySelector('.filterRow');
       if (!filterRow) return;
 
-      // 실제 필터(input/select)만 가져오기
+      // 필터(input/select)만 가져오기
       const filters = Array.from(filterRow.querySelectorAll('input, select'));
 
       table.querySelectorAll('tbody tr').forEach(tr => {
@@ -302,9 +302,19 @@
           if (!show) return;
 
           const val = filter.value;
-          if (!val) return; // 필터 "-" 선택 시 전체 보기
+          if (!val) return; // "-" 선택 시 전체 보기
 
-          const td = tds[fIdx]; // 필터 열과 td 열을 1:1 매칭
+          let td;
+
+          if (filter.tagName === 'INPUT') {
+            // 이름 필터 → 첫 번째 td
+            td = tds[0];
+          } else if (filter.tagName === 'SELECT') {
+            // select 필터 → 데이터 열 인덱스 보정
+            // 사진 칸 때문에 +1
+            td = tds[fIdx + 1];
+          }
+
           if (!td) return;
 
           let cellVal = '';
@@ -313,11 +323,7 @@
             if (!cellVal.includes(val)) show = false;
           } else if (filter.tagName === 'SELECT') {
             const sel = td.querySelector('select');
-            if (sel) {
-              cellVal = sel.value.trim();
-            } else {
-              cellVal = "-"; // select 없는 경우
-            }
+            cellVal = sel ? sel.value.trim() : "-";
             if (cellVal !== val) show = false;
           }
         });
