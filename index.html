@@ -8,8 +8,8 @@
     .page { display: none; background-color: white !important; color: black !important; font-weight: bold; text-align: center; margin: 0 auto; }
     html, body { background-color: black; margin: 0; height: 100%;  color: white; }
     .active { display: table; }
-    button { margin: 5px; padding: 8px 12px; text-align: center; }
-    #pageIndicator { text-align: center; font-size: 24px; margin: 15px 15px; font-weight: bold; }
+    button { margin: 5px; padding: 8px 12px; text-align: center; margin: 0 auto; }
+    #pageIndicator { text-align: center; font-size: 24px; margin: 15px 15px; font-weight: bold; margin: 0 auto; }
     table th, table td { text-align: center; vertical-align: middle; }
     select { font-size: 50px; height: 60px; width: 80%; box-sizing: border-box; }
     input[type="text"] { font-size: 15px; height: 60px; width: 85%; box-sizing: border-box; text-align: center; line-height: 60px; }
@@ -30,6 +30,10 @@
 </head>
 <body>
   <div>
+    <span id="pageIndicator">현재 페이지: 메인시트</span>
+  </div>
+  
+  <div>
     <button onclick="showPage(1)">메인</button>
     <button onclick="showPage(2)">1관</button>
     <button onclick="showPage(3)">2관</button>
@@ -38,7 +42,6 @@
     <button id="btnSave" onclick="saveSQLite()" disabled>저장</button>
     <input type="file" id="fileInput" style="display:none" onchange="loadSQLite(event)">
     <button id="btnLoad" onclick="document.getElementById('fileInput').click()" disabled>불러오기</button>
-    <span id="pageIndicator">현재 페이지: 메인시트</span>
   </div>
 
   <!-- 페이지 1 -->
