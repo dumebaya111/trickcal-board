@@ -453,14 +453,12 @@
     pageRows.forEach(row => {
       const rowName = row.cells[0].textContent.trim();
       if (rowName === name) {
-        const colIndex = 2; // 속성 위치 기준
+        const colIndex = 0;
 
-        // 내가 지정한 색상으로 변경
         let color = "";
-        if (attribute === "순수") color = "#a8e6a3";   // 원하는 초록색
-        else if (attribute === "공명") color = "#fff5a3"; // 원하는 노란색
+        if (attribute === "순수") color = "#a8e6a3";
+        else if (attribute === "공명") color = "";
 
-        // 해당 칸과 오른쪽 칸 배경 적용
         if (row.cells[colIndex]) row.cells[colIndex].style.backgroundColor = color;
         if (row.cells[colIndex + 1]) row.cells[colIndex + 1].style.backgroundColor = color;
       }
