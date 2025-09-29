@@ -261,6 +261,31 @@
     </tbody>
   </table>
 
+  <!-- 페이지 6 -->
+  <table id="page6" class="page" border="1" cellpadding="5" cellspacing="0" style="display: none !important;">
+    <thead>
+      <tr>
+        <th>이름</th><th>사진</th><th>속성</th>
+      </tr>
+    </thead>
+    <tbody>
+        <td>비비</td>
+        <td></td>
+        <td>순수</td>
+      </tr>
+      <tr>
+        <td>란</td>
+        <td></td>
+        <td>순수</td>
+      </tr>
+      <tr>
+        <td>우로스</td>
+        <td></td>
+        <td>공명</td>
+      </tr>
+    </tbody>
+  </table>
+  
   <script>
     let db;
     let SQL; // ✅ 전역 SQL 객체
@@ -298,8 +323,8 @@
     function saveSQLite() {
       db.run("DELETE FROM board");
       document.querySelectorAll('table').forEach((table) => {
-        const pageId = table.id.replace("page", ""); // ✅ 실제 페이지 번호 추출
-        if (pageId === "1") return; // 메인시트 제외
+        const pageId = table.id.replace("page", ""); 
+        if (pageId === "1" || pageId === "6") return; 
         table.querySelectorAll('tbody tr').forEach((tr) => {
           const firstTd = tr.querySelector('td:first-child');
           if (!firstTd) return;
@@ -319,7 +344,8 @@
       URL.revokeObjectURL(url);
       alert("SQLite 저장 완료!");
     }
-  
+
+    // 로드 기능
     function loadSQLite(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -333,7 +359,6 @@
           const Uints = new Uint8Array(reader.result);
           const testDb = new SQL.Database(Uints);
 
-          // sqlite_master 검사 (트리거/뷰 등)
           const check = testDb.exec("SELECT type, name, sql FROM sqlite_master WHERE type IN ('trigger','view')");
           if (check.length && check[0].values.length > 0) {
             console.warn("거부된 DB의 sqlite_master:", check[0].values);
@@ -342,10 +367,8 @@
             return;
           }
 
-          // 이제 안전하다고 판단되면 전역 db로 교체
           db = testDb;
 
-          // 기존 로직: board 테이블 읽고 셀에 값 넣기 (여기서 절대 innerHTML 사용 금지)
           const res = db.exec("SELECT * FROM board");
           if (res.length > 0) {
             const rows = res[0].values;
@@ -356,7 +379,7 @@
                 .find(r => r.querySelector('td:first-child')?.textContent.trim() === name);
               if (tr) {
                 const sel = tr.querySelectorAll('td select')[col];
-                if (sel) sel.value = String(value); // 문자열로 강제
+                if (sel) sel.value = String(value); 
               }
             });
           }
@@ -373,7 +396,6 @@
       const filterRow = table.querySelector('.filterRow');
       if (!filterRow) return;
 
-      // 필터(input/select)만 가져오기
       const filters = Array.from(filterRow.querySelectorAll('input, select'));
 
       table.querySelectorAll('tbody tr').forEach(tr => {
@@ -389,11 +411,8 @@
           let td;
 
           if (filter.tagName === 'INPUT') {
-            // 이름 필터 → 첫 번째 td
             td = tds[0];
-          } else if (filter.tagName === 'SELECT') {
-            // select 필터 → 데이터 열 인덱스 보정
-            // 사진 칸 때문에 +1
+          } else if (filter.tagName === 'SELECT') {1
             td = tds[fIdx + 1];
           }
 
@@ -423,6 +442,31 @@
       filter.addEventListener('input', e => applyFilters(e.target.closest('table')));
       filter.addEventListener('change', e => applyFilters(e.target.closest('table')));
     });
+
+    document.querySelectorAll("#page6 tbody tr").forEach(tr => {
+  const attribute = tr.cells[2].textContent.trim(); // 속성
+  const name = tr.cells[0].textContent.trim(); // 이름
+
+  // 속성 색깔 칠하기
+  for (let i = 2; i <= 5; i++) {
+    const pageRows = document.querySelectorAll(`#page${i} tbody tr`);
+    pageRows.forEach(row => {
+      const rowName = row.cells[0].textContent.trim();
+      if (rowName === name) {
+        const colIndex = 2; // 속성 위치 기준
+
+        // 내가 지정한 색상으로 변경
+        let color = "";
+        if (attribute === "순수") color = "#a8e6a3";   // 원하는 초록색
+        else if (attribute === "공명") color = "#fff5a3"; // 원하는 노란색
+
+        // 해당 칸과 오른쪽 칸 배경 적용
+        if (row.cells[colIndex]) row.cells[colIndex].style.backgroundColor = color;
+        if (row.cells[colIndex + 1]) row.cells[colIndex + 1].style.backgroundColor = color;
+      }
+    });
+  }
+});
     
   </script>
 </body>
