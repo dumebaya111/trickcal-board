@@ -313,35 +313,55 @@
       alert("SQLite 저장 완료!");
     }
   
-    // 불러오기
     function loadSQLite(event) {
       const file = event.target.files[0];
       if (!file) return;
+
+      const MAX_BYTES = 2 * 1024 * 1024; // 2MB
+      if (file.size > MAX_BYTES) { alert("파일이 너무 큽니다."); return; }
+
       const reader = new FileReader();
       reader.onload = () => {
-        const Uints = new Uint8Array(reader.result);
-        db = new SQL.Database(Uints); // ✅ 여기서 SQL이 전역에 있어야 함
-        const res = db.exec("SELECT * FROM board");
-        if (res.length > 0) {
-          const rows = res[0].values;
-          rows.forEach(([page, name, col, value]) => {
-            const table = document.getElementById("page" + page);
-            if (!table) return;
-            const tr = Array.from(table.querySelectorAll('tbody tr'))
-              .find(r => r.querySelector('td:first-child')?.textContent.trim() === name);
-            if (tr) {
-              const sel = tr.querySelectorAll('td select')[col];
-              if (sel) sel.value = value;
-            }
-          });
+        try {
+          const Uints = new Uint8Array(reader.result);
+          const testDb = new SQL.Database(Uints);
+
+          // sqlite_master 검사 (트리거/뷰 등)
+          const check = testDb.exec("SELECT type, name, sql FROM sqlite_master WHERE type IN ('trigger','view')");
+          if (check.length && check[0].values.length > 0) {
+            console.warn("거부된 DB의 sqlite_master:", check[0].values);
+            alert("이 DB는 트리거나 뷰를 포함하고 있어 로드할 수 없습니다.");
+            testDb.close && testDb.close();
+            return;
+          }
+
+          // 이제 안전하다고 판단되면 전역 db로 교체
+          db = testDb;
+
+          // 기존 로직: board 테이블 읽고 셀에 값 넣기 (여기서 절대 innerHTML 사용 금지)
+          const res = db.exec("SELECT * FROM board");
+          if (res.length > 0) {
+            const rows = res[0].values;
+            rows.forEach(([page, name, col, value]) => {
+              const table = document.getElementById("page" + page);
+              if (!table) return;
+              const tr = Array.from(table.querySelectorAll('tbody tr'))
+                .find(r => r.querySelector('td:first-child')?.textContent.trim() === name);
+              if (tr) {
+                const sel = tr.querySelectorAll('td select')[col];
+                if (sel) sel.value = String(value); // 문자열로 강제
+              }
+            });
+          }
+          alert("SQLite 불러오기 완료!");
+        } catch (err) {
+          console.error(err);
+          alert("파일 처리 중 오류가 발생했습니다.");
         }
-        alert("SQLite 불러오기 완료!");
       };
       reader.readAsArrayBuffer(file);
     }
-
-    window.addEventListener("DOMContentLoaded", initDB);
-
+    
     function applyFilters(table) {
       const filterRow = table.querySelector('.filterRow');
       if (!filterRow) return;
