@@ -14,22 +14,23 @@
     input[type="text"] { font-size: 15px; height: 60px; width: 100%; box-sizing: border-box; text-align: center; line-height: 60px; }
     table td img { max-width: 100%; max-height: 100px; height: auto; display: block; margin: 0 auto; object-fit: contain; }
     #page2 th:nth-child(1), #page2 td:nth-child(1) { width: 5%; }
-    #page2 th:nth-child(2), #page2 td:nth-child(2) { width: 8%; }
+    #page2 th:nth-child(2), #page2 td:nth-child(2) { width: 7%; }
     #page2 th:nth-child(n+3), #page2 td:nth-child(n+3) { width: 5%; }
     #page3 th:nth-child(1), #page3 td:nth-child(1) { width: 5%; }
-    #page3 th:nth-child(2), #page3 td:nth-child(2) { width: 8%; }
+    #page3 th:nth-child(2), #page3 td:nth-child(2) { width: 7%; }
     #page3 th:nth-child(n+3), #page3 td:nth-child(n+3) { width: 5%; }
     #page4 th:nth-child(1), #page4 td:nth-child(1) { width: 5%; }
-    #page4 th:nth-child(2), #page4 td:nth-child(2) { width: 8%; }
+    #page4 th:nth-child(2), #page4 td:nth-child(2) { width: 7%; }
     #page4 th:nth-child(n+3), #page4 td:nth-child(n+3) { width: 5%; }
   </style>
 </head>
 <body>
   <div>
-    <button onclick="showPage(1)">메인시트</button>
+    <button onclick="showPage(1)">메인</button>
     <button onclick="showPage(2)">1관</button>
     <button onclick="showPage(3)">2관</button>
     <button onclick="showPage(4)">3관</button>
+    <button onclick="showPage(5)">4관</button>
     <button id="btnSave" onclick="saveSQLite()" disabled>저장</button>
     <input type="file" id="fileInput" style="display:none" onchange="loadSQLite(event)">
     <button id="btnLoad" onclick="document.getElementById('fileInput').click()" disabled>불러오기</button>
@@ -40,7 +41,7 @@
   <table id="page1" class="page active"></table>
 
   <!-- 페이지 2 -->
-  <table id="page2" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 53%;">
+  <table id="page2" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 52%;">
     <thead>
       <tr>
         <th>이름</th><th>사진</th><th>공격력</th><th>치명타</th><th>치명피해</th>
@@ -100,7 +101,7 @@
   </table>
   
   <!-- 페이지 3 -->
-  <table id="page3" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 53%;">
+  <table id="page3" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 52%;">
     <thead>
       <tr>
         <th>이름</th><th>사진</th><th>공격력</th><th>치명타</th><th>치명피해</th>
@@ -159,7 +160,7 @@
   </table>
   
   <!-- 페이지 4 -->
-  <table id="page4" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 53%;">
+  <table id="page4" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: 52%;">
     <thead>
       <tr>
         <th>이름</th><th>사진</th><th>공격력</th><th>치명타</th><th>치명피해</th>
@@ -217,6 +218,96 @@
     </tbody>
   </table>
 
+  <!-- 페이지 5 -->
+  <table id="page5" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: %;">
+    <thead>
+      <tr>
+        <th>이름</th><th>사진</th><th>성급</th><th>장비랭크</th>
+      </tr>
+      <tr class="filterRow">
+        <td><input type="text" placeholder="이름"></td>
+        <td></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option></select></td>
+      </tr>
+    </thead>
+    <tbody>
+        <td>비비</td>
+        <td><img src="사도/순/비비.png" alt="비비" ></td>
+        <td><select><option>3성</option><option>4성</option><option>5성     </tr>
+    </thead>
+    <tbody>
+        <td>비비</td>
+        <td><img src="사도/순/비비.png" alt="비비" ></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+      </tr>
+      <tr>
+        <td>란</td>
+        <td><img src="사도/순/란.png" alt="란" ></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+      </tr>
+      <tr>
+        <td>우로스</td>
+        <td><img src="사도/공명/우로스.png" alt="우로스" ></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+        <td><select><option>X</option><option>O</option></select></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 페이지 5 -->
+  <table id="page5" class="page" border="1" cellpadding="5" cellspacing="0" style="table-layout: fixed; width: %;">
+    <thead>
+      <tr>
+        <th>이름</th><th>사진</th><th>성급</th><th>장비랭크</th>
+      </tr>
+      <tr class="filterRow">
+        <td><input type="text" placeholder="이름"></td>
+        <td></td>
+        <td><select><option value="">-</option><option>O</option><option>X</option><option>1성</option><option>2성</option><option>3성</option><option>4성</option><option>5성</option>
+        <option>어사2성</option><option>어사3성</option></select></td>
+        <td><select><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+        <option>7</option><option>8</option><option>9</option><option>10</option><option>11</option></select></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>비비</td>
+        <td><img src="사도/순/비비.png" alt="비비" ></td>
+        <td><select><option>3성</option><option>4성</option><option>5성</option><option>어사2성</option><option>어사3성</option></select></td>
+        <td><select><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+        <option>7</option><option>8</option><option>9</option><option>10</option><option>11</option></select></td>
+      </tr>   
+      <tr>
+        <td>란</td>
+        <td><img src="사도/순/란.png" alt="란" ></td>
+        <td><select><option>3성</option><option>4성</option><option>5성</option><option>어사2성</option><option>어사3성</option></select></td>
+        <td><select><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+        <option>7</option><option>8</option><option>9</option><option>10</option><option>11</option></select></td>
+      </tr>
+    </tbody>
+  </table>
+
   <script>
     let db;
     let SQL; // ✅ 전역 SQL 객체
@@ -225,8 +316,18 @@
     function showPage(num) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById('page' + num).classList.add('active');
-      document.getElementById('pageIndicator').textContent =
-        "현재 페이지: " + (num === 1 ? "메인시트" : (num-1) + "관");
+
+      let indicatorText = "";
+
+      if (num === 1) {
+        indicatorText = "메인시트";
+      } else if (num === 5) {
+        indicatorText = "체크리스트";
+      } else {
+        indicatorText = (num - 1) + "관";
+      }
+
+      document.getElementById('pageIndicator').textContent = "현재 페이지: " + indicatorText;
     }
 
     // DB 초기화
